@@ -1,8 +1,11 @@
 package util
 
 import (
+	"bytes"
+	"crypto/rand"
 	"fmt"
 	"io/ioutil"
+	"math/big"
 	"strings"
 )
 
@@ -23,4 +26,18 @@ func WriteWithIoutil(name,content string) {
 	if ioutil.WriteFile(name,data,0644) == nil {
 		fmt.Println("写入文件成功:",content)
 	}
+}
+
+
+func CreateRandomString(len int) string  {
+	var container string
+	var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+	b := bytes.NewBufferString(str)
+	length := b.Len()
+	bigInt := big.NewInt(int64(length))
+	for i := 0;i < len ;i++  {
+		randomInt,_ := rand.Int(rand.Reader,bigInt)
+		container += string(str[randomInt.Int64()])
+	}
+	return container
 }

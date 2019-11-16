@@ -3,17 +3,16 @@ package util
 import (
 	"bufio"
 	"fmt"
-	"github.com/satori/go.uuid"
 	"io"
 	"net/http"
 	"os"
 )
 
-func DownloadImg(imgUrl string)  {
+func DownloadImg(imgUrl string) (name string,path string) {
 	imgPath := "/Users/ZhuangXiaoDa/open-work/image/blog/"
 
-	fileName := uuid.Must(uuid.NewV4())
-	writePath := imgPath + fileName.String() + ".jpg"
+	fileName := CreateRandomString(10)
+	writePath := imgPath + fileName + ".jpg"
 
 
 	res, err := http.Get(imgUrl)
@@ -35,6 +34,10 @@ func DownloadImg(imgUrl string)  {
 	writer := bufio.NewWriter(file)
 
 	written, _ := io.Copy(writer, reader)
-	fmt.Printf("%s.jpg Total length: %d write finish ! \n",fileName.String(), written)
+	fmt.Printf("%s.jpg Total length: %d write finish ! \n",fileName, written)
+
+	return fileName,writePath
+
 }
+
 
