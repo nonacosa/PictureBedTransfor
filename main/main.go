@@ -3,6 +3,8 @@ package main
 import (
 	"../util"
 	"fmt"
+	"github.com/minio/minio-go/v6"
+	"log"
 	"regexp"
 	"strings"
 )
@@ -11,22 +13,39 @@ import (
 
 var sourceImageUrlArr []string
 
-func upload(bedType string){
-	switch bedType {
-	case "minio":
-		minio()
-	}
-}
-
-func minio()  {
-
-}
-
+//func upload(bedType string){
+//	switch bedType {
+//	case "minio":
+//		minio()
+//	}
+//}
+//
+//
+//func minio()  {
+//
+//}
 
 func main() {
-	origin := util.Ioutil("/Users/Venda-GM/Downloads/test.md")
-	analysisPictureReplace(origin)
-	util.WriteWithIoutil("testtest",origin)
+
+	endpoint := "www.gitrue.com:9000"
+	accessKeyID := "pkwenda"
+	secretAccessKey := "886pkxiaojiba"
+	useSSL := false
+
+	// Initialize minio client object.
+	minioClient, err := minio.New(endpoint, accessKeyID, secretAccessKey, useSSL)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Printf("%#v\n", minioClient) // minioClient is now setup
+
+	//
+	//origin := util.Ioutil("/Users/ZhuangXiaoDa/open-work/blog/source/_posts/website-architecture-separate.md")
+	//analysisPictureReplace(origin)
+
+
+	//util.WriteWithIoutil("testtest",origin)
 }
 
 

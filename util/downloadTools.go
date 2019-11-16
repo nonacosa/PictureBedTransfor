@@ -3,16 +3,17 @@ package util
 import (
 	"bufio"
 	"fmt"
+	"github.com/satori/go.uuid"
 	"io"
 	"net/http"
 	"os"
-	"path"
 )
 
 func DownloadImg(imgUrl string)  {
-	imgPath := "/Users/ZhuangXiaoDa/open-work/img/"
+	imgPath := "/Users/ZhuangXiaoDa/open-work/image/blog/"
 
-	fileName := path.Base(imgUrl)
+	fileName := uuid.Must(uuid.NewV4())
+	writePath := imgPath + fileName.String() + ".jpg"
 
 
 	res, err := http.Get(imgUrl)
@@ -23,10 +24,10 @@ func DownloadImg(imgUrl string)  {
 	}
 	defer res.Body.Close()
 	// 获得get请求响应的reader对象
-	reader := bufio.NewReaderSize(res.Body, 32 * 1024)
+	reader := bufio.NewReaderSize(res.Body, 32 * 1024 * 10)
 
 
-	file, err := os.Create(imgPath + fileName)
+	file, err := os.Create(writePath)
 	if err != nil {
 		panic(err)
 	}
@@ -34,6 +35,6 @@ func DownloadImg(imgUrl string)  {
 	writer := bufio.NewWriter(file)
 
 	written, _ := io.Copy(writer, reader)
-	fmt.Printf("Total length: %d", written)
+	fmt.Printf("%s.jpg Total length: %d write finish ! \n",fileName.String(), written)
 }
 
